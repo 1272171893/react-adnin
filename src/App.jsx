@@ -1,4 +1,7 @@
 import React from "react";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import Admin from "./pages/admin/index";
+import Login from "./pages/login/index";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -6,9 +9,12 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div className="App">
-        <h1>hellow world</h1>
-      </div>
+      <Router>
+        <Switch>
+          <Route pathName="/login" component={Login}></Route>
+          <Route pathName="/admin" component={Admin}></Route>
+        </Switch>
+      </Router>
     );
   }
 }
