@@ -3,19 +3,14 @@ import "./less/index.less";
 import logo from "@/assets/image/logo.png";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      layout: {
-        labelCol: { span: 8 },
-        wrapperCol: { span: 16 },
-      },
-    };
+    this.state = {};
   }
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Received values of form: ", e);
+  handleSubmit = value=> {
+    console.log(value);
   };
   render() {
     return (
@@ -28,24 +23,43 @@ export default class Login extends React.Component {
           <div className="title">欢迎登陆</div>
           <div className="main">
             <Form
-              onSubmit={this.handleSubmit}
+              size="middle"
+              onFinish={this.handleSubmit}
               name="normal_login"
               className="login-form"
+              initialValues={{
+                remember: true,
+              }}
             >
-              <Form.Item>
+              <Form.Item
+                name="username"
+                rules={[
+                  {
+                    required: true,
+                    message: "请输入正确的用户名",
+                  },
+                ]}
+              >
                 <Input
                   prefix={<UserOutlined className="site-form-item-icon" />}
-                  placeholder="Username"
+                  placeholder="用户"
                 />
               </Form.Item>
-              <Form.Item>
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "请输入正确的密码",
+                  },
+                ]}
+              >
                 <Input
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   type="password"
-                  placeholder="Password"
+                  placeholder="密码"
                 />
               </Form.Item>
-
               <Form.Item>
                 <Button
                   type="primary"
