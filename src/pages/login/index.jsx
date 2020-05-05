@@ -1,5 +1,5 @@
 import React from 'react';
-// import  "./less/index.less";
+import  "./less/index.less";
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
