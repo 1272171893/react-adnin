@@ -1,4 +1,5 @@
 import React from 'react';
+// import  "./less/index.less";
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -6,7 +7,7 @@ export default class Login extends React.Component {
     }
     render() {
         return (
-            <div className='Login'>
+            <div className='login'>
                 <h1>hellow world login</h1>
             </div>
         );
