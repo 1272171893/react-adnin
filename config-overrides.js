@@ -1,14 +1,33 @@
 //安装 babel-plugin-import,customize-cra，react-app-rewired修改默认脚手架配置
 
-const { override, fixBabelImports, addLessLoader } = require("customize-cra");
+const {
+  override,
+  addWebpackAlias,
+  fixBabelImports,
+  addLessLoader,
+  addDecoratorsLegacy,
+} = require("customize-cra");
+
 module.exports = override(
+  addWebpackAlias({
+    "@": require("path").resolve(__dirname, "src"),
+  }),
   fixBabelImports("import", {
     libraryName: "antd",
     libraryDirectory: "es",
     style: true,
   }),
   addLessLoader({
+    strictMath: true,
+    noIeCompat: true,
     javascriptEnabled: true,
-//     modifyVars: { "@primary-color": "#1DA57A" },
-  })
+    loader: "css-loader",
+    options: {
+      modules: {
+        localIdentName: "[name]__[local]___[hash:base64:5]",
+      },
+      sourceMap: true
+    }
+  }),
+  addDecoratorsLegacy()
 );
