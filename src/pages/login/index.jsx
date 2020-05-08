@@ -3,16 +3,32 @@ import "./less/index.less";
 import logo from "@/assets/image/logo.png";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-
+import { login } from "@/api";
+import { message } from "antd";
+import { Redirect } from "react-router-dom";
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-  handleSubmit = value=> {
-    console.log(value);
+  handleSubmit = async (value) => {
+    const res = await login(value.username, value.password);
+    console.log(res);
+    if (res.status === 1) {
+      message.error(res.msg);
+      return;
+    }
+    const user = res.data;
+    window.localStorage.setItem("user_key", JSON.stringify(user));
+    message.success("登录成功");
+    this.props.history.replace("/");
   };
   render() {
+    const user_key = window.localStorage.getItem("user_key") || {};
+    const user = JSON.parse(user_key);
+    if(user._id){
+        return <Redirect to="/" ></Redirect>
+    }
     return (
       <div className="login-container">
         <div className="header-container">
