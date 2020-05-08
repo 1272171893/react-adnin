@@ -1,24 +1,33 @@
 import React from "react";
 import "./index.less";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import logo from "@/assets/image/logo.png";
 import { Menu } from "antd";
 import menuList from "@/config/menuConfig";
 const { SubMenu } = Menu;
 
-export default class LeftNav extends React.Component {
+class LeftNav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    
+  }
+  componentWillMount(){
+    this.MenuNodes= this.getMenuNodes(menuList)
   }
   getMenuNodes = (values) => {
+    const Keys = this.props.location.pathname;
     return values.map((item) => {
       if (item.children && item.children.length !== 0) {
+        const falg = item.children.some((it) => it.key === Keys);
+        if(falg){
+           this.openMenu=item.key
+        }
         return (
-            <SubMenu key={item.key}  title={item.title}>
-                {this.getMenuNodes(item.children)}
-            </SubMenu>
-          );
+          <SubMenu key={item.key} title={item.title}>
+            {this.getMenuNodes(item.children)}
+          </SubMenu>
+        );
       }
       return (
         <Menu.Item key={item.key}>
@@ -30,6 +39,7 @@ export default class LeftNav extends React.Component {
     });
   };
   render() {
+    const seleectKey = this.props.location.pathname;
     return (
       <div className="left-nav">
         <Link className="left-nav-link" to="/home">
@@ -37,33 +47,16 @@ export default class LeftNav extends React.Component {
           <h1>后台管理</h1>
         </Link>
         <Menu
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
+          selectedKeys={[seleectKey]}
+          defaultOpenKeys={[this.openMenu]}
           mode="inline"
           theme="dark"
           inlineCollapsed={this.state.collapsed}
         >
-          {this.getMenuNodes(menuList)}
-          {/* <Menu.Item key="/home" >
-            <Link to="/home">
-              <span>首页</span>
-            </Link>
-          </Menu.Item>
-
-          <SubMenu key="sub1"  title="Navigation One">
-            <Menu.Item key="/category" >
-              <Link to="/category">
-                <span>品类管理</span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="/product" >
-              <Link to="/product">
-                <span>商品管理</span>
-              </Link>
-            </Menu.Item> */}
-          {/* </SubMenu> */}
+          {this.MenuNodes}
         </Menu>
       </div>
     );
   }
 }
+export default withRouter(LeftNav);
