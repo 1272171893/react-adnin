@@ -6,6 +6,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { login } from "@/api";
 import { message } from "antd";
 import { Redirect } from "react-router-dom";
+import utils from "@/utils/storageUtils";
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -19,13 +20,12 @@ export default class Login extends React.Component {
       return;
     }
     const user = res.data;
-    window.localStorage.setItem("user_key", JSON.stringify(user));
+    utils.saveUser(user)
     message.success("登录成功");
     this.props.history.replace("/");
   };
   render() {
-    const user_key = window.localStorage.getItem("user_key") || {};
-    const user = JSON.parse(user_key);
+    const user = utils.getUser();
     if(user._id){
         return <Redirect to="/" ></Redirect>
     }
