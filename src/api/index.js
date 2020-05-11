@@ -28,3 +28,5 @@ export const getWeather = (city) => {
         })
     })
 }
+//获取分类的列表
+export const getCategory = () => axios.get(baseUrl + "/manage/category/list")
